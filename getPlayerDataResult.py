@@ -25,7 +25,8 @@ def openAndFindResult(dataFrameURL, playersDF):
     df['startTime'] = pd.to_datetime(df['startTime'], utc=True)
     for i,row in df.iterrows():
         if(df.at[i,'home'] in nbaTeams):
-            
+            if( i >100):
+                break
             print("Index: " + str(i))
             betType = df.at[i,'betType']
             if(' - ' in betType):
@@ -38,6 +39,8 @@ def openAndFindResult(dataFrameURL, playersDF):
                     print("getting stats for playerID")
                     print(playerID)
                     print(playerName)
+                    print("abd game date")
+                    print(df.at[i,'startTime'])
                     statsObj = getStatsByPlayerAndGame(playerID,df.at[i,'startTime'])
                     if(len(statsObj) >0): #if not, it hasnt found a matching game. Which is ok, it might not be played yet
                         statsTranslation = translationDict[metric]
@@ -74,5 +77,5 @@ def openAndFindResult(dataFrameURL, playersDF):
 playerList = players.get_players()
 playerListDF = pd.DataFrame.from_records(playerList)
 
-url = '/Users/brocklumbard/Desktop/PinnacleOutputbasketball03182021201530.csv'
+url = 'sampleData/PinnacleOutputbasketball03172021091525.csv'
 openAndFindResult(url,playerListDF)
